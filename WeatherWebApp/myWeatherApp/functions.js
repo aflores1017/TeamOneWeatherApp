@@ -6,6 +6,7 @@ const sunnyDay = "https://th.bing.com/th/id/R.722f1fe1ea26153501740d3ea546ac84?r
 const weatherAPI = "https://api.open-meteo.com/v1/forecast?latitude=41.85003&longitude=-87.65005&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
 
 function changeImage(){
+    const images = document.getElementById('images')
     const element= document.getElementById('temp_input');
     const elementValue = element.value;
     fetch(weatherAPI).then((response)=>{
@@ -19,7 +20,7 @@ function changeImage(){
                 console.log("this is very tiring");
                 break;
               case (3.4 < 10):
-                targetDiv.innerHTML = snowDay;  
+                images.src = snowDay;  
                 break;
               default: 
                 console.log("this is the default");
