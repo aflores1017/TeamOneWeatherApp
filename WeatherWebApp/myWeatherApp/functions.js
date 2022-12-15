@@ -1,3 +1,5 @@
+const { ImageList } = require("@mui/material");
+
 const snowDay = "https://thumbs.dreamstime.com/b/winter-s-cold-snowing-there-lot-snow-street-111471115.jpg";
 const rainyDay = "https://www.timogundelejesu.com/wp-content/uploads/2020/04/It-Was-A-Raining-Day.jpg";
 const cloudyDay = "https://th.bing.com/th/id/R.fe2f32d9f359672cd112bc4863b749af?rik=R1zNV5bHdqvWBw&pid=ImgRaw&r=0";
@@ -11,28 +13,22 @@ function changeImage(){
     const lat= document.getElementById('latitude').value;
     //let current_weather = data.current_weather.temperature
     const long= document.getElementById('longitude').value;
-    const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m`
-
-    let image = document.getElementById('images');
+    const weatherAPI = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,rain,showers,snowfall,cloudcover,windgusts_10m&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch`
     // const element= document.getElementById('temp_input');
     // const elementValue = element.value;
-    fetch(weatherAPI).then((response)=>{
-      let current_weather = data.current_weather.temperature
-        response.json().then((data)=>{
-            //console.log(data.current_weather.temperature);
-            //const targetDiv = document.getElementById('Weather-Images')
-            //targetDiv.innerHTML = JSON.stringify(data.current_weather.temperature);
-            switch (true) {
-              case (current_weather > 10): 
-                console.log("this is very tiring");
-                break;
-              case (current_weather < 10):
-                image.src = rainyDay;  
-                console.log("nice");
-                break;
-              default: 
-                console.log("this is the default");
-            }
+    fetch(weatherAPI).then((temperature, cloudcover)=>{
+      let current_temperature = temperature.hourly.temperature_2m
+      let current_cloudCover = cloudcover.hourly.cloudCover
+        response.json().then((temperature,cloudCover)=>{
+          const images = document.getElementById('images');
+           if (temperature > 40 && cloudCover > 30){
+            images.src = cloudyDay;
+           }
+           else if (temperature > 65 && cloudCover < 30){
+            images.src = sunnyDay;
+           }
+                                  
+           
         })
     })
        
